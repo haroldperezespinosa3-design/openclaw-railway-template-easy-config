@@ -2096,7 +2096,15 @@ proxy.on("proxyReq", (proxyReq, req, res) => {
 proxy.on("proxyReqWs", (proxyReq, req, socket, options, head) => {
   proxyReq.setHeader("Authorization", `Bearer ${OPENCLAW_GATEWAY_TOKEN}`);
 });
-
+// ===== WHATSAPP / TWILIO =====
+app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) => {
+  const userMessage = req.body.Body;
+  const userPhone = req.body.From;
+  console.log(`[whatsapp] mensaje de ${userPhone}: ${userMessage}`);
+  res.set('Content-Type', 'text/xml');
+  res.send(`<Response><Message>Hola! Tu mensaje fue recibido.</Message></Response>`);
+});
+// ===== FIN WHATSAPP =====
 app.use(async (req, res) => {
   // If not configured, force users to /setup for any non-setup routes.
  if (!isConfigured() && !req.path.startsWith("/setup") && !req.path.startsWith("/whatsapp")) {
@@ -2121,15 +2129,7 @@ app.use(async (req, res) => {
 });
 
 // Create HTTP server from Express app
-// ===== WHATSAPP / TWILIO =====
-app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) => {
-  const userMessage = req.body.Body;
-  const userPhone = req.body.From;
-  console.log(`[whatsapp] mensaje de ${userPhone}: ${userMessage}`);
-  res.set('Content-Type', 'text/xml');
-  res.send(`<Response><Message>Hola! Tu mensaje fue recibido.</Message></Response>`);
-});
-// ===== FIN WHATSAPP =====
+
 const server = app.listen(PORT, () => {
   console.log(`[wrapper] listening on port ${PORT}`);
   console.log(`[wrapper] setup wizard: http://localhost:${PORT}/setup`);
