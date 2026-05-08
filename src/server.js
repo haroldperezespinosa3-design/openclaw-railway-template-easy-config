@@ -534,6 +534,7 @@ decodeCredentialsFromEnv();
 const app = express();
 app.disable("x-powered-by");
 app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: false }));
 
 // CORS middleware for external dashboard access (e.g. OpenClaw Cloud on Lovable)
 app.use("/setup/api", (req, res, next) => {
