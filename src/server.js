@@ -2107,8 +2107,12 @@ app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) 
 // ===== FIN WHATSAPP =====
 app.use(async (req, res) => {
  // If not configured, force users to /setup for any non-setup routes.
-  if (req.path.startsWith("/whatsapp")) { 
-    return res.status(404).send("Not found"); 
+ if (req.path.startsWith("/whatsapp")) { 
+    const userMessage = req.body.Body;
+    const userPhone = req.body.From;
+    console.log(`[whatsapp] mensaje de ${userPhone}: ${userMessage}`);
+    res.set('Content-Type', 'text/xml');
+    return res.send(`<Response><Message>Hola! Tu mensaje fue recibido.</Message></Response>`);
   }
   if (!isConfigured() && !req.path.startsWith("/setup")) {
     return res.redirect("/setup");
