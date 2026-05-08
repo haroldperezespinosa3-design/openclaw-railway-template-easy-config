@@ -2143,8 +2143,7 @@ const server = app.listen(PORT, () => {
   console.log(`[wrapper] configured: ${isConfigured()}`);
 });
 // ===== SERVIDOR WHATSAPP EN PUERTO SEPARADO =====
-const express2 = require('express');
-const appWhatsapp = express2();
+const appWhatsapp = express();
 appWhatsapp.use(express2.urlencoded({ extended: false }));
 appWhatsapp.post('/whatsapp', async (req, res) => {
   const userMessage = req.body.Body;
