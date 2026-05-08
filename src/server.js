@@ -2099,7 +2099,7 @@ proxy.on("proxyReqWs", (proxyReq, req, socket, options, head) => {
 
 app.use(async (req, res) => {
   // If not configured, force users to /setup for any non-setup routes.
-  if (!isConfigured() && !req.path.startsWith("/setup")) {
+ if (!isConfigured() && !req.path.startsWith("/setup") && !req.path.startsWith("/whatsapp")) {
     return res.redirect("/setup");
   }
 
