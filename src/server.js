@@ -2120,6 +2120,15 @@ app.use(async (req, res) => {
 });
 
 // Create HTTP server from Express app
+// ===== WHATSAPP / TWILIO =====
+app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) => {
+  const userMessage = req.body.Body;
+  const userPhone = req.body.From;
+  console.log(`[whatsapp] mensaje de ${userPhone}: ${userMessage}`);
+  res.set('Content-Type', 'text/xml');
+  res.send(`<Response><Message>Hola! Tu mensaje fue recibido.</Message></Response>`);
+});
+// ===== FIN WHATSAPP =====
 const server = app.listen(PORT, () => {
   console.log(`[wrapper] listening on port ${PORT}`);
   console.log(`[wrapper] setup wizard: http://localhost:${PORT}/setup`);
