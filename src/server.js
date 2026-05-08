@@ -2107,7 +2107,8 @@ app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) 
 // ===== FIN WHATSAPP =====
 app.use(async (req, res) => {
   // If not configured, force users to /setup for any non-setup routes.
- if (!isConfigured() && !req.path.startsWith("/setup") && !req.path.startsWith("/whatsapp")) {
+if (req.path.startsWith("/whatsapp")) { return next(); }
+if (!isConfigured() && !req.path.startsWith("/setup")) {
     return res.redirect("/setup");
   }
 
