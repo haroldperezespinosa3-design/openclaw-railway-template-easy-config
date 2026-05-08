@@ -2144,7 +2144,7 @@ const server = app.listen(PORT, () => {
 });
 // ===== SERVIDOR WHATSAPP EN PUERTO SEPARADO =====
 const appWhatsapp = express();
-appWhatsapp.use(express2.urlencoded({ extended: false }));
+appWhatsapp.use(express.urlencoded({ extended: false }));
 appWhatsapp.post('/whatsapp', async (req, res) => {
   const userMessage = req.body.Body;
   const userPhone = req.body.From;
