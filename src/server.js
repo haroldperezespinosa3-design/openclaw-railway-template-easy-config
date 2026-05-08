@@ -2142,6 +2142,21 @@ const server = app.listen(PORT, () => {
   console.log(`[wrapper] setup wizard: http://localhost:${PORT}/setup`);
   console.log(`[wrapper] configured: ${isConfigured()}`);
 });
+// ===== SERVIDOR WHATSAPP EN PUERTO SEPARADO =====
+const express2 = require('express');
+const appWhatsapp = express2();
+appWhatsapp.use(express2.urlencoded({ extended: false }));
+appWhatsapp.post('/whatsapp', async (req, res) => {
+  const userMessage = req.body.Body;
+  const userPhone = req.body.From;
+  console.log(`[whatsapp] mensaje de ${userPhone}: ${userMessage}`);
+  res.set('Content-Type', 'text/xml');
+  res.send(`<Response><Message>Hola! Tu mensaje fue recibido.</Message></Response>`);
+});
+appWhatsapp.listen(8081, () => {
+  console.log('[whatsapp] servidor escuchando en puerto 8081');
+});
+// ===== FIN SERVIDOR WHATSAPP =====
 
 // Handle WebSocket upgrades
 server.on("upgrade", async (req, socket, head) => {
