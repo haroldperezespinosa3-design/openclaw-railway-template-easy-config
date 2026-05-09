@@ -10,6 +10,18 @@ import * as tar from "tar";
 
 // Railway commonly sets PORT=8080 for HTTP services.
 const PORT = Number.parseInt(process.env.PORT ?? "8080", 10);
+// Fix trustedProxy config if broken
+try {
+  const configPath = '/data/.openclaw/openclaw.json';
+  const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  if (config?.gateway?.auth?.trustedProxy && !config.gateway.auth.trustedProxy.userHeader) {
+    delete config.gateway.auth.trustedProxy;
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    console.log('[wrapper] fixed trustedProxy config');
+  }
+} catch (e) {
+  console.log('[wrapper] config fix skipped:', e.message);
+}
 
 // Hard-coded Openclaw directories for Railway deployment
 const STATE_DIR = "/data/.openclaw";
